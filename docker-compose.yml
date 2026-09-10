@@ -1,0 +1,20 @@
+services:
+  bazaar:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: sqlite:////data/bazaar.db
+      BACKUP_DIRECTORY: /data/backups
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    volumes:
+      - bazaar-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,urllib.request; urllib.request.urlopen('http://127.0.0.1:'+os.getenv('PORT','8000')+'/api/health')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+volumes:
+  bazaar-data:

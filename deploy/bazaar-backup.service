@@ -1,0 +1,9 @@
+[Unit]
+Description=Nightly Bazaar SQLite backup
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/opt/bazaar
+EnvironmentFile=/opt/bazaar/.env
+ExecStart=/opt/bazaar/.venv/bin/python deploy/backup.py

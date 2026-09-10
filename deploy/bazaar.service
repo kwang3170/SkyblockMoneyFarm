@@ -1,0 +1,18 @@
+[Unit]
+Description=Hypixel Bazaar collector and API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/bazaar
+EnvironmentFile=/opt/bazaar/.env
+ExecStartPre=/opt/bazaar/.venv/bin/alembic -c backend/alembic.ini upgrade head
+ExecStart=/opt/bazaar/.venv/bin/bazaar serve
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
